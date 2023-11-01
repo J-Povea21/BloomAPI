@@ -27,12 +27,11 @@ async def root():
 
 @app.get("/bloom/add/{username}")
 async def add(username: str):
-    filter.add(username)
-    return {'status': True, 'message': 'Username added!'}
+    usernameExists = filter.check_existence(username)
 
+    if usernameExists:
+        return {'status': False, 'message': 'The username is already taken (probably)'}
+    else:
+        filter.add(username)
+        return {'status': True, 'message': 'Username added!'}
 
-@app.get("/bloom/check/{username}")
-async def check(username: str):
-    usernameExists = filter.check_existence(item=username)
-    message = 'The username is already taken (probably)' if usernameExists else 'The username is available'
-    return {'status': usernameExists, 'message': message}
