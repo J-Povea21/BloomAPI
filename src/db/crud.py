@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 # Bloom filter
-from core.bloom_filter import BloomFilter
+from src.core.bloom_filter import BloomFilter
 
 filter = BloomFilter(50, 0.05)
 

@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-
 from sqlalchemy.orm import Session
-from db import crud, models, schemas
-from db.database import SessionLocal, engine
-from utils.helpers import read_user_response, user_added_response
+
+from src.db import crud, models, schemas
+from src.db.database import SessionLocal, engine
+from src.utils.helpers import read_user_response, user_added_response
 
 # API config
 app = FastAPI()
