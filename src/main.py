@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from sqlalchemy.orm import Session
 from db import crud, models, schemas
-from db.database import SessionLocal, ENGINE
+from db.database import SessionLocal, engine
 from utils.helpers import read_user_response, user_added_response
 
 # API config
@@ -19,7 +19,7 @@ app.add_middleware(CORSMiddleware,
                    )
 
 # Database config
-models.Base.metadata.create_all(bind=ENGINE)
+models.Base.metadata.create_all(bind=engine)
 
 
 def get_db():

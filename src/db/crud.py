@@ -8,7 +8,6 @@ filter = BloomFilter(50, 0.05)
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> bool:
-
     username_taken = get_user_by_username(db, user.username)
     if username_taken:
         return False
@@ -30,7 +29,6 @@ def create_user(db: Session, user: schemas.UserCreate) -> bool:
 
 
 def get_user_by_username(db: Session, username: str):
-
     # Before we check in the database, we use the bloom filter
     username_in_filter = filter.check_existence(username)
 
@@ -40,8 +38,8 @@ def get_user_by_username(db: Session, username: str):
         db_user = db.query(models.User).filter(models.User.username == username).first()
         print('Db checked!')
 
-
     return db_user
+
 
 def get_users(db: Session, skip: int = 0, limit: int = 50):
     return db.query(models.User).offset(skip).limit(limit).all()
