@@ -1,10 +1,8 @@
+from __future__ import annotations
 from sqlalchemy.orm import Session
 from . import models, schemas
 
-# Bloom filter
-from src.core.bloom_filter import BloomFilter
-
-filter = BloomFilter(50, 0.05)
+filter: "BloomFilter" = None
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> bool:
@@ -43,3 +41,8 @@ def get_user_by_username(db: Session, username: str):
 
 def get_users(db: Session, skip: int = 0, limit: int = 50):
     return db.query(models.User).offset(skip).limit(limit).all()
+
+
+def load_bf(db: Session) -> None:
+    db_users = db.query(models.User).all()
+    filter.preload_db_data(db_users)

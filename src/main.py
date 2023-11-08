@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
+from src.core.bloom_filter import BloomFilter
 from src.db import crud, models, schemas
 from src.db.database import SessionLocal, engine
 from src.utils.helpers import read_user_response, user_added_response
@@ -30,16 +31,20 @@ def get_db():
         db.close()
 
 
+# Bloom filter initialization
+crud.filter = BloomFilter(50, 0.05)
+
+
 # Routes
 
 @app.get('/')
-async def root():
+def root(db: Session = Depends(get_db)):
+    crud.load_bf(db)
     return {'status': True, 'message': 'API running...'}
 
 
 @app.post("/bloom/add/")
 def add(user: schemas.UserCreate, db: Session = Depends(get_db)):
-
     user_created = crud.create_user(db, user)
 
     return user_added_response(user_created)
@@ -56,3 +61,5 @@ def read_user(username: str, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, username=username)
 
     return read_user_response(db_user)
+
+

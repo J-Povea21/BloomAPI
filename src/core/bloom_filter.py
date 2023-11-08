@@ -43,6 +43,10 @@ class BloomFilter:
 
         return True
 
+    def preload_db_data(self, users: list) -> None:
+        for user in users:
+            self.add(user.username)
+
     @staticmethod
     def get_barray_size(number_items: int, fp_prob: float) -> int:
         # This functions uses the following formula in order to get the size of the bit array
