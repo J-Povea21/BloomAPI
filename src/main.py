@@ -45,7 +45,7 @@ def add(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return user_added_response(user_created)
 
 
-@app.get("/blooam/users/")
+@app.get("/bloom/users/")
 def read_users(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
